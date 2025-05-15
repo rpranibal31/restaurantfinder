@@ -1,0 +1,80 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+html {
+  font-size: calc(16px * var(--font-scale, 1));
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  @apply text-gray-900 bg-gray-50;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Contraste alto */
+body.contrast {
+  background-color: #0d1117;
+  color: #f0f6fc;
+}
+
+body.contrast aside div,
+body.contrast header,
+body.contrast button,
+body.contrast input,
+body.contrast select,
+body.contrast h1 {
+  background-color: #161b22;
+  color: #f0f6fc;
+  border-color: #30363d;
+}
+
+body.contrast .div-contrast,
+body.contrast .div-contrast button {
+  background-color: #161b22;
+  color: #f0f6fc;
+  border-color: #30363d;
+}
+
+body.contrast .div-contrast-grandient {
+  background: linear-gradient(
+    0deg,
+    rgba(22, 27, 34, 1) 0%,
+    rgba(255, 255, 255, 0) 100%
+  ) !important;
+}
+
+body.contrast .div-contrast-grandient h2,
+body.contrast a,
+body.contrast .material-icons {
+  color: #ffff00 !important;
+}
+
+body.contrast .div-contrast-info {
+  background-color: #161b22;
+  color: #f0f6fc;
+  border-color: #30363d;
+}
+
+.gm-ui-hover-effect {
+  display: none !important;
+}
