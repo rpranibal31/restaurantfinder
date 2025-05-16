@@ -1,0 +1,17 @@
+{
+  "edgeFunctions": {
+    "middleware.js": {
+      "runtime": "edge",
+      "maxDuration": 5
+    }
+  },
+  "routes": [
+    {
+      "src": "/(.*)",
+      "middlewarePath": "middleware.js"
+    },
+    {
+      "handle": "filesystem"
+    }
+  ]
+}
