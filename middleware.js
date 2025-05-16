@@ -1,4 +1,8 @@
 // middleware.js
+export const config = {
+  matcher: '/:path*'  // corre en todas las rutas
+};
+
 export function middleware(req) {
   const auth = req.headers.get('authorization') || '';
   if (!auth.startsWith('Basic ')) {
