@@ -20,6 +20,7 @@
     }
   },
   "include": ["src"],
+  "exclude": ["middleware.js"],
   "references": [
     {
       "path": "./tsconfig.app.json"
