@@ -34,11 +34,6 @@ Con esta arquitectura, **Buscador de Comercios Edenred** ofrece una base sólida
 
 ---
 
-Visita la aplicación en línea sin necesidad de instalarla localmente:
-[https://buscadoredenred.vercel.app/](https://buscadoredenred.vercel.app/)
-
-Si aun necesita instalar localmente siga las siguientes instrucciones:
-
 ## 🚀 Instalación y arranque
 
 1. Clona el repositorio:
