@@ -2,7 +2,6 @@
   "version": 2,
   "functions": {
     "api/basic-auth.js": {
-      "runtime": "nodejs18.x",
       "memory": 128,
       "maxDuration": 10,
       "includeFiles": "dist/**"
