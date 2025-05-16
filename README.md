@@ -65,9 +65,6 @@ Si aun necesita instalar localmente siga las siguientes instrucciones:
    http://localhost:5173
    ```
 
-## 📸 Capturas
-[Video Tutorial Buscador EdenRed](https://www.youtube.com/watch?v=MxiWaMYYubI)
-
 ---
 
 ## 🗂 Estructura del proyecto
