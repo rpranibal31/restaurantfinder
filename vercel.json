@@ -1,0 +1,15 @@
+{
+  "functions": {
+    "api/basic-auth.js": {
+      "memory": 128,
+      "maxDuration": 10,
+      "includeFiles": "dist/**"
+    }
+  },
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/api/basic-auth.js"
+    }
+  ]
+}
