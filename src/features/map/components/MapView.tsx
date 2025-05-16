@@ -1,4 +1,4 @@
-import {
+import React, {
   useEffect,
   useRef,
   useState,
@@ -6,10 +6,10 @@ import {
   forwardRef,
 } from "react";
 import type { Restaurant } from "@/features/restaurants/types/restaurant.types";
-import { Loader } from "@googlemaps/js-api-loader";
 import { useUserLocationStore } from "@/shared/store/locationStore";
 import { MarkerClusterer } from "@googlemaps/markerclusterer";
 import MiniCard from "./MiniCard";
+import { googleMapsLoader } from "@/shared/hooks/googleMapsLoader";
 
 export interface MapViewHandle {
   panTo: (coords: { lat: number; lng: number }) => void;
@@ -78,16 +78,10 @@ const MapView = forwardRef<MapViewHandle, MapViewProps>(
       const initMap = async () => {
         if (!mapRef.current) return;
 
-        const loader = new Loader({
-          apiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY || "",
-          version: "weekly",
-          libraries: ["places"],
-        });
+        const google = await googleMapsLoader.load();
+        setGmaps(google.maps);
 
-        const googleLib = await loader.load();
-        setGmaps(googleLib.maps);
-
-        const instance = new googleLib.maps.Map(mapRef.current, {
+        const instance = new google.maps.Map(mapRef.current, {
           center: defaultCenter,
           zoom: 14,
           mapTypeControl: false,
@@ -95,7 +89,7 @@ const MapView = forwardRef<MapViewHandle, MapViewProps>(
           streetViewControl: false,
           zoomControl: true,
           zoomControlOptions: {
-            position: googleLib.maps.ControlPosition.TOP_RIGHT,
+            position: google.maps.ControlPosition.TOP_RIGHT,
           },
         });
 
@@ -118,10 +112,8 @@ const MapView = forwardRef<MapViewHandle, MapViewProps>(
 
       markersRef.current.forEach((m) => m.setMap(null));
       markersRef.current = [];
-
       clustererRef.current?.clearMarkers();
       clustererRef.current = null;
-
       if (radiusCircleRef.current) {
         radiusCircleRef.current.setMap(null);
         radiusCircleRef.current = null;
@@ -129,9 +121,7 @@ const MapView = forwardRef<MapViewHandle, MapViewProps>(
 
       if (!userLocation || restaurants.length === 0) return;
 
-      const newMarkers: google.maps.Marker[] = [];
-
-      restaurants.forEach((restaurant) => {
+      const newMarkers: google.maps.Marker[] = restaurants.map((restaurant) => {
         const marker = new gmaps.Marker({
           position: restaurant.position,
           title: restaurant.name,
@@ -140,9 +130,8 @@ const MapView = forwardRef<MapViewHandle, MapViewProps>(
             scaledSize: new gmaps.Size(36, 36),
           },
         });
-
         marker.addListener("click", () => onMarkerClick(restaurant));
-        newMarkers.push(marker);
+        return marker;
       });
 
       markersRef.current = newMarkers;
@@ -202,10 +191,17 @@ const MapView = forwardRef<MapViewHandle, MapViewProps>(
               if (!projection || !bounds) return null;
 
               const point = projection.fromLatLngToPoint(
-                new gmaps.LatLng(restaurant.position.lat, restaurant.position.lng)
+                new gmaps.LatLng(
+                  restaurant.position.lat,
+                  restaurant.position.lng
+                )
               );
-              const topRight = projection.fromLatLngToPoint(bounds.getNorthEast());
-              const bottomLeft = projection.fromLatLngToPoint(bounds.getSouthWest());
+              const topRight = projection.fromLatLngToPoint(
+                bounds.getNorthEast()
+              );
+              const bottomLeft = projection.fromLatLngToPoint(
+                bounds.getSouthWest()
+              );
               const scale = Math.pow(2, map.getZoom() ?? 14);
 
               const x = (point.x - bottomLeft.x) * scale;

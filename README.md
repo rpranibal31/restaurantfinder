@@ -65,6 +65,9 @@ Si aun necesita instalar localmente siga las siguientes instrucciones:
    http://localhost:5173
    ```
 
+## 📸 Capturas
+[Video Tutorial Buscador EdenRed](https://www.youtube.com/watch?v=MxiWaMYYubI)
+
 ---
 
 ## 🗂 Estructura del proyecto
@@ -121,17 +124,6 @@ project-root/
 
 ---
 
-## 📸 Capturas / GIFs
-
-Crea una carpeta `screenshots/` en la raíz del proyecto y añade aquí tus imágenes:
-
-```markdown
-![Búsqueda de comercios](./screenshots/busqueda.png)
-![Mini-cards en acción](./screenshots/minicards.gif)
-![Detalle del comercio](./screenshots/detalle.png)
-```
-
----
 
 ## 🔧 Mejoras a futuro
 

@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from "react";
-import { Loader } from "@googlemaps/js-api-loader";
+// src/features/restaurants/components/RestaurantDetailModal.tsx
+import React, { useEffect, useRef, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -7,8 +7,8 @@ import {
   DialogDescription,
 } from "@/shared/ui/dialog";
 import { Button } from "@/shared/ui/button";
-
 import type { Restaurant } from "@/features/restaurants/types/restaurant.types";
+import { googleMapsLoader } from "@/shared/hooks/googleMapsLoader";
 
 interface Props {
   restaurant: Restaurant;
@@ -16,14 +16,11 @@ interface Props {
   onClose: () => void;
 }
 
-
 export default function RestaurantDetailModal({
   restaurant,
   isOpen,
   onClose,
 }: Props) {
-
-
   const [expanded, setExpanded] = useState(false);
   const [startY, setStartY] = useState<number | null>(null);
   const [dragOffset, setDragOffset] = useState(0);
@@ -32,12 +29,9 @@ export default function RestaurantDetailModal({
 
   const mapRef = useRef<HTMLDivElement>(null);
 
-  
-
   const isOpenText = restaurant.isOpen
     ? `Abierto hasta ${restaurant.closingTime}`
     : `Cerrado · Abre a las ${restaurant.openingTime}`;
-
   const statusColor = restaurant.isOpen ? "text-green-600" : "text-red-500";
 
   useEffect(() => {
@@ -47,18 +41,12 @@ export default function RestaurantDetailModal({
   }, []);
 
   useEffect(() => {
-    if (!isOpen || !restaurant?.position) return;
+    if (!isOpen || !restaurant.position) return;
 
     const timeout = setTimeout(() => {
       if (!mapRef.current) return;
 
-      const loader = new Loader({
-        apiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
-        version: "weekly",
-        libraries: ["places"],
-      });
-
-      loader.load().then((google) => {
+      googleMapsLoader.load().then((google) => {
         const map = new google.maps.Map(mapRef.current!, {
           center: restaurant.position,
           zoom: 16,
@@ -83,8 +71,7 @@ export default function RestaurantDetailModal({
 
   const handleTouchMove = (e: React.TouchEvent) => {
     if (isDesktop || startY === null) return;
-    const offset = e.touches[0].clientY - startY;
-    setDragOffset(offset);
+    setDragOffset(e.touches[0].clientY - startY);
   };
 
   const handleTouchEnd = () => {

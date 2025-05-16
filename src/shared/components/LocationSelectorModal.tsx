@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from "react";
-import { Loader } from "@googlemaps/js-api-loader";
+import React, { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useUserLocationStore } from "@/shared/store/locationStore";
+import { googleMapsLoader } from "@/shared/hooks/googleMapsLoader";
 
 interface Props {
   open: boolean;
@@ -18,13 +18,7 @@ export default function LocationSelectorModal({ open, onClose }: Props) {
   useEffect(() => {
     if (!open) return;
 
-    const loader = new Loader({
-      apiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
-      version: "weekly",
-      libraries: ["places"],
-    });
-
-    loader.load().then((google) => {
+    googleMapsLoader.load().then((google) => {
       if (inputRef.current && !autocompleteRef.current) {
         const autocomplete = new google.maps.places.Autocomplete(
           inputRef.current,
